@@ -9,8 +9,7 @@ const app = express();
 
 const PORT = process.env.PORT || 4000;
 
-// Carpeta donde está tu build de Angular
-const DIST_FOLDER = path.join(__dirname, 'dist', 'WebReport');
+const DIST_FOLDER = path.join(__dirname, 'dist/WebReport');
 
 // Servir archivos estáticos
 app.use(express.static(DIST_FOLDER));
