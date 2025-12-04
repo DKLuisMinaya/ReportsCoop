@@ -9,7 +9,7 @@ const DIST_FOLDER = join(process.cwd(), 'dist/WebReport'); // carpeta de tu buil
 app.use(express.static(DIST_FOLDER));
 
 // Todas las demás rutas deben devolver index.html
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(join(DIST_FOLDER, 'index.html'));
 });
 
