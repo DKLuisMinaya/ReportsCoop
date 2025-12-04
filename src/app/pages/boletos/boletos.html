@@ -1,0 +1,130 @@
+<div class="container my-4">
+  <div class="d-flex gap-3 align-items-end flex-wrap">
+    <div class="flex-fill">
+      <label class="form-label">Cooperativa</label>
+      <select class="form-select" [(ngModel)]="cooperativaSeleccionada" (change)="cargarVehiculos()">
+        <option value="" disabled selected>-- Selecciona cooperativa --</option>
+        <option *ngFor="let c of cooperativas" [value]="c.id">{{ c.nombre }}</option>
+      </select>
+    </div>
+
+    <div class="flex-fill">
+      <label class="form-label">Vehículo</label>
+      <select class="form-select" [(ngModel)]="vehiculoSeleccionado">
+        <option value="" disabled selected>-- Selecciona vehículo --</option>
+        <option *ngFor="let v of vehiculos" [ngValue]="v">{{ v.nombre }}</option>
+      </select>
+    </div>
+
+    <div class="flex-fill">
+      <label class="form-label">Ciudad</label>
+      <select class="form-select" [(ngModel)]="ciudadSeleccionada">
+        <option value="" disabled selected>-- Selecciona ciudad --</option>
+        <option *ngFor="let c of ciudades" [ngValue]="c">{{ c.nombre }}</option>
+      </select>
+    </div>
+
+    <div class="flex-fill">
+      <label class="form-label">Fecha inicio semana</label>
+      <input type="date" class="form-control" [(ngModel)]="fechaConsulta">
+    </div>
+
+    <div>
+      <button class="btn btn-primary" (click)="cargarTablaBoletos()">Aceptar</button>
+    </div>
+  </div>
+
+  <!-- TABLA DE BOLETOS -->
+  <div *ngIf="tablaBoletos.length > 0" class="mt-4 table-responsive">
+    <table class="table table-bordered text-center">
+      <thead>
+        <tr>
+          <th>Boletería</th>
+          <th>Valor Boleto</th>
+          <th *ngFor="let dia of dias">{{ dia }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fila of tablaBoletos; let idx = index; trackBy: trackByFila">
+          <td *ngIf="idx === 0" [attr.rowspan]="tablaBoletos.length" style="vertical-align: middle;">
+            {{ ciudadSeleccionada?.nombre }}
+          </td>
+          <td>{{ fila.valor | currency:'USD' }}</td>
+          <td *ngFor="let cantidad of fila.cantidades; let i = index; trackBy: trackByIndex">
+            <input
+              type="number"
+              class="form-control"
+              [ngModel]="fila.cantidades[i]"
+              (ngModelChange)="onCantidadChange(fila, i, $event)"
+              min="0">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="btn btn-success mt-2" (click)="guardarBoletos()">Establecer Cambios</button>
+  </div>
+
+  <!-- TABLA DE REGISTROS -->
+  <div class="container my-4">
+  <h3 class="mb-4">Registros de Boletos</h3>
+
+  <div class="d-flex gap-3 align-items-end mb-3">
+    <div>
+      <label class="form-label">Fecha</label>
+      <input type="date" class="form-control" [(ngModel)]="fechaConsulta">
+    </div>
+    <div>
+      <button class="btn btn-secondary" (click)="verRegistros()">Ver registros</button>
+    </div>
+  </div>
+
+  <div *ngIf="registros.length > 0" class="table-responsive">
+    <table class="table table-bordered table-striped text-center align-middle">
+      <thead class="table-primary">
+        <tr>
+          <th rowspan="2">Boletería</th>
+          <th rowspan="2">Precio (USD)</th>
+          <th colspan="7">Días de la Semana</th>
+          <th rowspan="2">Total Boletos</th>
+          <th rowspan="2">Valor Total (USD)</th>
+        </tr>
+        <tr>
+          <th *ngFor="let dia of diasRegistros">
+            {{ dia | date:'EEE dd/MM' }} 
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let fila of registros; let idx = index">
+          <td *ngIf="idx === 0" [attr.rowspan]="registros.length">
+            {{ fila.nombre }}
+          </td>
+          <td>{{ fila.valor | number:'1.2-2' }}</td>
+          <td *ngFor="let cant of fila.cantidades">{{ cant }}</td>
+          <td>{{ fila.totalBoletos }}</td>
+          <td>{{ fila.valorTotal | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+
+      <tfoot>
+        <tr class="table-secondary">
+          <td colspan="2" class="text-end fw-bold">Total Diario:</td>
+          <td *ngFor="let dia of diasRegistros">
+            {{ totalesDiarios[dia] || 0 | number:'1.2-2' }}
+          </td>
+          <td class="fw-bold">
+            {{ registrosTotalesBoletos }}
+          </td>
+          <td class="fw-bold">
+            {{ totalGeneral | number:'1.2-2' }}
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+
+</div>

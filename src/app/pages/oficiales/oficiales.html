@@ -1,0 +1,23 @@
+<div class="form-container">
+  <h3>Ingresar Oficial</h3>
+
+  <div class="form-group">
+    <label for="nombre">Nombre:</label>
+    <input id="nombre" type="text" [(ngModel)]="oficial.nombre" placeholder="Ingrese nombre" />
+  </div>
+
+  <div class="form-group">
+    <label for="telefono">Teléfono:</label>
+    <input id="telefono" type="text" [(ngModel)]="oficial.telefono" placeholder="Ingrese teléfono" />
+  </div>
+
+  <div class="form-group">
+    <label for="cooperativa">Cooperativa:</label>
+    <select id="cooperativa" [(ngModel)]="oficial.id_cooperativa">
+      <option value="0" disabled selected>-- Seleccione cooperativa --</option>
+      <option *ngFor="let c of cooperativas" [value]="c.id">{{ c.nombre }}</option>
+    </select>
+  </div>
+
+  <button class="btn-save" (click)="guardarOficial()">Establecer Cambios</button>
+</div>

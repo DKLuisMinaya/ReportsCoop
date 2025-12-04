@@ -1,0 +1,157 @@
+<div class="container my-4">
+
+  <div class="row g-3 align-items-end mb-4">
+
+    <div class="col-md-4">
+      <div class="card shadow-sm p-3 border-start border-4 border-primary d-flex align-items-center gap-2">
+        <i class="bi bi-building fs-3 text-primary"></i>
+
+        <div class="flex-fill">
+          <label for="cooperativa" class="form-label fw-bold mb-1">Cooperativa:</label>
+
+          <select id="cooperativa"
+                  class="form-select shadow-sm"
+                  [(ngModel)]="cooperativaSeleccionada"
+                  (ngModelChange)="cargarVehiculos()">
+
+            <option [ngValue]="null" disabled>-- Selecciona cooperativa --</option>
+
+            <option *ngFor="let c of cooperativas" [ngValue]="c">
+              {{ c.nombre }}
+            </option>
+
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm p-3 border-start border-4 border-success d-flex align-items-center gap-2">
+        <i class="bi bi-truck fs-3 text-success"></i>
+
+        <div class="flex-fill">
+          <label for="vehiculo" class="form-label fw-bold mb-1">Vehículo:</label>
+
+          <select id="vehiculo"
+                  class="form-select shadow-sm"
+                  [(ngModel)]="vehiculoSeleccionado">
+
+            <option [ngValue]="null" disabled>-- Selecciona vehículo --</option>
+
+            <option *ngFor="let v of vehiculos" [ngValue]="v">
+              {{ v.nombre }}
+            </option>
+
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm p-3 border-start border-4 border-info d-flex align-items-center gap-2">
+        <i class="bi bi-calendar-date fs-3 text-info"></i>
+
+        <div class="flex-fill">
+          <label for="fecha" class="form-label fw-bold mb-1">Fecha:</label>
+
+          <div class="input-group shadow-sm">
+            <input type="date"
+                   id="fecha"
+                   class="form-control"
+                   [(ngModel)]="fechaSeleccionada">
+
+            <button class="btn btn-primary" (click)="cargarReportes()">Aceptar</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="container my-4">
+  <div class="row g-3">
+    <div class="col-12 col-md-6 col-lg-4" *ngFor="let r of reportes">
+      <div class="card shadow-sm h-100">
+
+        <div class="card-header bg-dark text-white">
+          <h6 class="mb-0">
+            Fecha: {{ r.fecha | date : 'shortDate' }} |
+            Turno: {{ r.turno.id_turno }} | {{ r.turno.hora_salida }} - {{ r.turno.hora_llegada }}
+
+
+          </h6>
+        </div>
+
+        <div class="card-body">
+
+          <div class="mb-3 p-2 border rounded bg-light text-center">
+            <h5 class="mb-0">REPORTE DE <strong>{{ vehiculoSeleccionado?.nombre ?? '-' }}</strong></h5>
+          </div>
+
+          <div class="d-flex gap-3 mb-3">
+            <div class="flex-fill p-2 border rounded bg-light text-center">
+              Chofer: <strong>{{ r.chofer ?? '-' }}</strong>
+            </div>
+            <div class="flex-fill p-2 border rounded bg-light text-center">
+              Oficial: <strong>{{ r.oficial ?? '-' }}</strong>
+            </div>
+          </div>
+
+          <div class="d-flex gap-3 justify-content-center mb-3 flex-wrap">
+
+            <div class="table-responsive" style="flex: 1; max-width: 200px;">
+              <h6 class="fw-bold mb-1 text-center">Vueltas</h6>
+              <table class="table table-bordered table-sm text-center mb-0">
+                <tbody>
+                  <tr *ngFor="let v of r.vueltas; let i = index">
+                    <td>Vuelta {{ i + 1 }}</td>
+                    <td>{{ v ?? '-' }}</td>
+                  </tr>
+                  <tr class="fw-bold bg-light">
+                    <td>Total Ingresos</td>
+                    <td>{{ r.ingresos_totales ?? 0 }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            
+
+            <div class="table-responsive" style="flex: 1; max-width: 220px;">
+              <h6 class="fw-bold mb-1 text-center">Gastos</h6>
+              <table class="table table-bordered table-sm mb-0">
+                <tbody>
+                  <tr><td>Sello</td><td class="text-end">{{ r.gastos?.sello ?? 0 }}</td></tr>
+                  <tr><td>Despachador</td><td class="text-end">{{ r.gastos?.despachador ?? 0 }}</td></tr>
+                  <tr><td>Hoja</td><td class="text-end">{{ r.gastos?.hoja ?? 0 }}</td></tr>
+                  <tr><td>Agua</td><td class="text-end">{{ r.gastos?.agua ?? 0 }}</td></tr>
+                  <tr><td>Almuerzo</td><td class="text-end">{{ r.gastos?.almuerzo ?? 0 }}</td></tr>
+                  <tr><td>Guardia</td><td class="text-end">{{ r.gastos?.guardia ?? 0 }}</td></tr>
+                  <tr><td>Sello Portoviejo</td><td class="text-end">{{ r.gastos?.sello_portoviejo ?? 0 }}</td></tr>
+                  <tr><td>Fenacotip</td><td class="text-end">{{ r.gastos?.fenacotip ?? 0 }}</td></tr>
+                  <tr><td>Diesel 1</td><td class="text-end">{{ r.gastos?.diesel_1 ?? 0 }}</td></tr>
+                  <tr><td>Diesel 2</td><td class="text-end">{{ r.gastos?.diesel_2 ?? 0 }}</td></tr>
+                  <tr><td>Diesel 3</td><td class="text-end">{{ r.gastos?.diesel_3 ?? 0 }}</td></tr>
+                  <tr><td>Chofer</td><td class="text-end">{{ r.gastos?.chofer ?? 0 }}</td></tr>
+                  <tr><td>Otros</td><td class="text-end">{{ r.gastos?.otros ?? 0 }}</td></tr>
+                  <tr class="fw-bold bg-light"><td>Total Gastos</td><td class="text-end">{{ r.gastos_totales ?? 0 }}</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 flex-wrap justify-content-start">
+            <div class="flex-fill p-2 border rounded bg-light text-center">Crédito Boletería: <strong>{{ r.anticipotBoleteria ?? 0 }}</strong></div>
+            <div class="flex-fill p-2 border rounded bg-light text-center">Crédito Combustible: <strong>{{ r.creditoCombustible ?? 0 }}</strong></div>
+            <div class="flex-fill p-2 border rounded bg-light text-center">Observaciones: <strong>{{ r.observaciones ?? '-' }}</strong></div>
+            <div class="flex-fill p-2 border rounded bg-light text-center">Ingreso Entregado: <strong> {{ r.balance ?? 0 }} </strong> </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
