@@ -9,7 +9,7 @@ const app = express();
 
 const PORT = process.env.PORT || 4000;
 
-const DIST_FOLDER = path.join(__dirname, 'dist/WebReport');
+const DIST_FOLDER = path.join(__dirname, 'dist');
 
 // Servir archivos estáticos
 app.use(express.static(DIST_FOLDER));
