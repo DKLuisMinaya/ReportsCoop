@@ -1,0 +1,12 @@
+{
+  "routes": {
+    "/": {},
+    "/boletos": {},
+    "/bus": {},
+    "/choferes": {},
+    "/finanzas": {},
+    "/oficiales": {},
+    "/rubro": {},
+    "/turnos": {}
+  }
+}
