@@ -14,8 +14,8 @@ const DIST_FOLDER = path.join(__dirname, 'dist', 'WebReport');
 // Servir archivos estáticos
 app.use(express.static(DIST_FOLDER));
 
-// Todas las rutas que no sean archivos estáticos, sirven index.html
-app.get('*', (req, res) => {
+
+app.get('/*', (req, res) => {
   res.sendFile(path.join(DIST_FOLDER, 'index.html'));
 });
 
