@@ -1,18 +1,25 @@
 import express from 'express';
-import { join } from 'path';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 4200;
-const DIST_FOLDER = join(process.cwd(), 'dist/WebReport'); // carpeta de tu build SPA
+
+// Carpeta donde Angular deja los archivos compilados
+const distFolder = path.join(__dirname, 'dist/WebReport');
 
 // Servir archivos estáticos
-app.use(express.static(DIST_FOLDER));
+app.use(express.static(distFolder));
 
-// Todas las demás rutas deben devolver index.html
+// Redirigir todas las rutas a index.html (SPA)
 app.get('*', (req, res) => {
-  res.sendFile(join(DIST_FOLDER, 'index.html'));
+  res.sendFile(path.join(distFolder, 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor SPA escuchando en puerto ${PORT}`);
+// Iniciar el servidor
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
+  console.log(`Servidor corriendo en http://localhost:${port}`);
 });
