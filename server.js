@@ -16,8 +16,7 @@ const DIST_FOLDER = path.join(__dirname, 'dist', 'WebReport');
 app.use(express.static(DIST_FOLDER));
 
 
-// Si no tienes rutas de backend /api, usa esto:
-app.get(/.*/, (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(DIST_FOLDER, 'index.html'));
 });
 
