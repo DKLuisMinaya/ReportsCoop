@@ -10,7 +10,7 @@ const distFolder = path.join(path.resolve(), 'dist/WebReport');
 app.use(express.static(distFolder));
 
 // Cualquier otra ruta se redirige al index.html
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(distFolder, 'index.html'));
 });
 
