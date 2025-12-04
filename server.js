@@ -1,25 +1,26 @@
 import express from 'express';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+// Para __dirname en ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const app = express();
+// Carpeta de distribución Angular
+const DIST_FOLDER = path.join(__dirname, 'dist/WebReport');
 
+const app = express();
 const PORT = process.env.PORT || 4000;
 
-const DIST_FOLDER = path.join(__dirname, 'dist', 'WebReport');
-
-// Servir archivos estáticos
+// Servir archivos estáticos (JS, CSS, assets)
 app.use(express.static(DIST_FOLDER));
 
-
-app.use((req, res) => {
-  res.sendFile(path.join(DIST_FOLDER, 'index.html'));
+// Todas las demás rutas devuelven index.html (SPA routing)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(DIST_FOLDER, 'index.csr.html'));
 });
 
 // Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor Express para SPA Angular escuchando en http://localhost:${PORT}`);
 });
